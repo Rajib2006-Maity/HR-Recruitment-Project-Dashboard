@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Recruitment Project Manager</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --surface-0:#f1efe8;--surface-1:#f5f5f0;--surface-2:#ffffff;
+  --text-primary:#1a1a18;--text-secondary:#5f5e5a;--text-muted:#888780;
+  --border:rgba(0,0,0,0.1);--border-strong:rgba(0,0,0,0.18);
+  --bg-accent:#e6f1fb;--text-accent:#185fa5;--fill-accent:#378add;--on-accent:#fff;
+  --bg-success:#eaf3de;--text-success:#3b6d11;--fill-success:#639922;
+  --bg-danger:#fcebeb;--text-danger:#a32d2d;--fill-danger:#e24b4a;
+  --bg-warning:#faeeda;--text-warning:#854f0b;
+  --bg-pro:#eeedfe;--text-pro:#534ab7;
+  --border-accent:#85b7eb;--border-danger:#f09595;
+  --radius:8px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:var(--text-primary);background:var(--surface-0);min-height:100vh}
+.app{max-width:960px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:20px;font-weight:500;margin-bottom:4px}
+.subtitle{font-size:13px;color:var(--text-muted);margin-bottom:20px}
+.nav{display:flex;gap:2px;border-bottom:0.5px solid var(--border);margin-bottom:20px}
+.nav-btn{background:none;border:none;padding:9px 16px;font-size:13px;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit}
+.nav-btn.active{color:var(--text-primary);border-bottom-color:var(--text-primary);font-weight:500}
+.nav-btn:hover:not(.active){color:var(--text-secondary)}
+.view{display:none}.view.active{display:block}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:600px){.metrics{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr!important}}
+.metric{background:var(--surface-1);border-radius:var(--radius);padding:14px 16px}
+.metric .lbl{font-size:11px;color:var(--text-muted);margin-bottom:6px}
+.metric .val{font-size:24px;font-weight:500}
+.metric .chg{font-size:11px;margin-top:4px;color:var(--text-muted)}
+.card{background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:14px}
+.card-title{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px}
+.badge{display:inline-block;font-size:11px;padding:3px 9px;border-radius:4px;font-weight:500;white-space:nowrap}
+.b-sourcing{background:#e6f1fb;color:#0c447c}
+.b-screening{background:#faeeda;color:#633806}
+.b-interview{background:#eeedfe;color:#3c3489}
+.b-offer{background:#eaf3de;color:#27500a}
+.b-accepted{background:#e1f5ee;color:#085041}
+.b-hold{background:#fcebeb;color:#791f1f}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.row:last-child{border-bottom:none}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.av-b{background:#e6f1fb;color:#0c447c}.av-p{background:#eeedfe;color:#3c3489}
+.av-g{background:#eaf3de;color:#27500a}.av-a{background:#faeeda;color:#633806}
+.av-r{background:#fcebeb;color:#791f1f}.av-t{background:#e1f5ee;color:#085041}
+.row-main{flex:1;min-width:0}
+.row-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pipe-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pipe-cell{background:var(--surface-1);border-radius:var(--radius);padding:12px 8px;text-align:center}
+.pipe-num{font-size:20px;font-weight:500}
+.pipe-lbl{font-size:10px;color:var(--text-muted);margin-top:3px}
+.pipe-bar-wrap{height:3px;background:#e0e0e0;border-radius:2px;margin-top:8px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+input[type=text],input[type=email],select,textarea{width:100%;padding:8px 11px;background:var(--surface-1);border:0.5px solid var(--border);border-radius:var(--radius);font-size:13px;color:var(--text-primary);font-family:inherit;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--border-accent)}
+.form-row{display:flex;gap:8px;margin-bottom:10px}
+.form-row>*{flex:1;min-width:0}
+.btn{background:transparent;border:0.5px solid var(--border-strong);border-radius:var(--radius);padding:8px 14px;font-size:13px;color:var(--text-primary);cursor:pointer;font-family:inherit;transition:background .15s}
+.btn:hover{background:var(--surface-1)}
+.btn-primary{background:var(--fill-accent);color:var(--on-accent);border-color:var(--fill-accent)}
+.btn-primary:hover{background:#185fa5}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-danger{color:var(--text-danger);border-color:var(--border-danger)}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.progress-wrap{height:6px;background:var(--surface-1);border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:3px}
+.search-bar{display:flex;gap:8px;margin-bottom:14px}
+.search-bar input{flex:1}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.stat-row:last-child{border-bottom:none}
+.empty{text-align:center;padding:2rem;color:var(--text-muted);font-size:13px}
+.kanban-col{background:var(--surface-1);border-radius:12px;padding:12px}
+.kanban-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.kanban-count{font-size:12px;font-weight:500;padding:2px 9px;border-radius:10px}
+.cand-card{background:var(--surface-2);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:8px}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--surface-2);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 16px;font-size:13px;color:var(--text-primary);opacity:0;transition:opacity .3s;pointer-events:none;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.1)}
+.toast.show{opacity:1}
+.stage-btns{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1><i class="ti ti-briefcase" style="font-size:20px;vertical-align:-2px;margin-right:8px"></i>HR Recruitment Project</h1>
+  <div class="subtitle">India-based HR consulting firm · Full lifecycle recruitment tracker</div>
+
+  <div class="nav" id="nav">
+    <button class="nav-btn active" onclick="switchTab('dashboard')"><i class="ti ti-layout-dashboard" style="font-size:14px;margin-right:5px"></i>Dashboard</button>
+    <button class="nav-btn" onclick="switchTab('roles')"><i class="ti ti-briefcase" style="font-size:14px;margin-right:5px"></i>Roles</button>
+    <button class="nav-btn" onclick="switchTab('candidates')"><i class="ti ti-users" style="font-size:14px;margin-right:5px"></i>Candidates</button>
+    <button class="nav-btn" onclick="switchTab('pipeline')"><i class="ti ti-columns" style="font-size:14px;margin-right:5px"></i>Pipeline</button>
+    <button class="nav-btn" onclick="switchTab('metrics')"><i class="ti ti-chart-bar" style="font-size:14px;margin-right:5px"></i>Metrics</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="view-dashboard" class="view active">
+    <div class="metrics" id="dash-metrics"></div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-title">Pipeline snapshot</div>
+          <div class="pipe-grid" id="pipe-snapshot"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Active roles</div>
+          <div id="dash-roles"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">Recent activity</div>
+          <div id="dash-activity"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Source mix</div>
+          <div id="dash-sources"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLES -->
+  <div id="view-roles" class="view">
+    <div class="hdr">
+      <span style="font-size:16px;font-weight:500">Open roles</span>
+      <button class="btn btn-primary" onclick="showAddRole()"><i class="ti ti-plus" style="font-size:14px;margin-right:4px"></i>Add role</button>
+    </div>
+    <div id="add-role-form" style="display:none" class="card">
+      <div class="card-title">New role</div>
+      <div class="form-row">
+        <input type="text" id="r-title" placeholder="Role title">
+        <input type="text" id="r-dept" placeholder="Department">
+      </div>
+      <div class="form-row">
+        <select id="r-level"><option value="">Level</option><option>Entry</option><option>Mid</option><option>Senior</option><option>Lead</option><option>Manager</option></select>
+        <select id="r-status"><option value="sourcing">Sourcing</option><option value="screening">Screening</option><option value="interview">Interview</option><option value="offer">Offer</option><option value="hold">On hold</option></select>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn" onclick="document.getElementById('add-role-form').style.display='none'">Cancel</button>
+        <button class="btn btn-primary" onclick="addRole()">Save role</button>
+      </div>
+    </div>
+    <div id="roles-list"></div>
+  </div>
+
+  <!-- CANDIDATES -->
+  <div id="view-candidates" class="view">
+    <div class="hdr">
+      <span style="font-size:16px;font-weight:500">Candidates</span>
+      <button class="btn btn-primary" onclick="showAddCand()"><i class="ti ti-plus" style="font-size:14px;margin-right:4px"></i>Add candidate</button>
+    </div>
+    <div id="add-cand-form" style="display:none" class="card">
+      <div class="card-title">New candidate</div>
+      <div class="form-row">
+        <input type="text" id="c-name" placeholder="Full name">
+        <input type="email" id="c-email" placeholder="Email">
+      </div>
+      <div class="form-row">
+        <select id="c-role-sel"><option value="">Select role</option></select>
+        <select id="c-stage"><option value="sourcing">Sourcing</option><option value="screening">Screening</option><option value="interview">Interview</option><option value="offer">Offer</option><option value="accepted">Accepted</option></select>
+      </div>
+      <div class="form-row">
+        <select id="c-source"><option value="">Source</option><option>LinkedIn</option><option>Naukri</option><option>Referral</option><option>Indeed</option><option>Shine</option><option>Direct</option></select>
+        <input type="text" id="c-exp" placeholder="Experience (e.g. 5 yrs)">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn" onclick="document.getElementById('add-cand-form').style.display='none'">Cancel</button>
+        <button class="btn btn-primary" onclick="addCandidate()">Save candidate</button>
+      </div>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="cand-search" placeholder="Search by name or role…" oninput="renderCandidates()">
+      <select id="cand-filter-stage" onchange="renderCandidates()">
+        <option value="">All stages</option>
+        <option value="sourcing">Sourcing</option>
+        <option value="screening">Screening</option>
+        <option value="interview">Interview</option>
+        <option value="offer">Offer</option>
+        <option value="accepted">Accepted</option>
+      </select>
+    </div>
+    <div id="cand-list"></div>
+  </div>
+
+  <!-- PIPELINE KANBAN -->
+  <div id="view-pipeline" class="view">
+    <div class="hdr"><span style="font-size:16px;font-weight:500">Kanban pipeline</span></div>
+    <div id="kanban" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;overflow-x:auto"></div>
+  </div>
+
+  <!-- METRICS -->
+  <div id="view-metrics" class="view">
+    <div class="hdr"><span style="font-size:16px;font-weight:500">Recruitment metrics</span></div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-title">Pipeline conversion</div>
+          <div id="met-conversion"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Source effectiveness</div>
+          <div id="met-sources"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">Role fill rate</div>
+          <div id="met-fillrate"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Key targets</div>
+          <div id="met-targets"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STAGES=['sourcing','screening','interview','offer','accepted'];
+const STAGE_LABELS={sourcing:'Sourcing',screening:'Screening',interview:'Interview',offer:'Offer stage',accepted:'Accepted',hold:'On hold'};
+const STAGE_COLORS={sourcing:'b-sourcing',screening:'b-screening',interview:'b-interview',offer:'b-offer',accepted:'b-accepted',hold:'b-hold'};
+const AV_COLORS=['av-b','av-p','av-g','av-a','av-r','av-t'];
+const PIPE_COLORS={sourcing:'#378ADD',screening:'#EF9F27',interview:'#7F77DD',offer:'#639922',accepted:'#1D9E75',hold:'#E24B4A'};
+const SOURCE_COLORS={LinkedIn:'#0C447C',Naukri:'#854F0B',Indeed:'#3B6D11',Referral:'#534AB7',Shine:'#993C1D',Direct:'#5F5E5A'};
+
+function loadData(key,def){try{const d=localStorage.getItem(key);return d?JSON.parse(d):def}catch(e){return def}}
+function saveData(key,val){try{localStorage.setItem(key,JSON.stringify(val))}catch(e){}}
+
+let roles=loadData('hrp_roles',[
+  {id:1,title:'Product Manager – SaaS',dept:'Product',level:'Senior',status:'interview'},
+  {id:2,title:'Frontend Engineer (React)',dept:'Engineering',level:'Senior',status:'screening'},
+  {id:3,title:'HR Business Partner',dept:'HR',level:'Senior',status:'offer'},
+  {id:4,title:'Data Scientist – ML',dept:'Analytics',level:'Mid',status:'sourcing'},
+  {id:5,title:'Sales Manager – B2B',dept:'Sales',level:'Lead',status:'hold'},
+]);
+let candidates=loadData('hrp_candidates',[
+  {id:1,name:'Priya Sharma',email:'priya@mail.com',roleId:1,stage:'interview',source:'LinkedIn',exp:'6 yrs'},
+  {id:2,name:'Arjun Mehta',email:'arjun@mail.com',roleId:1,stage:'offer',source:'Referral',exp:'8 yrs'},
+  {id:3,name:'Sneha Rao',email:'sneha@mail.com',roleId:2,stage:'screening',source:'Naukri',exp:'4 yrs'},
+  {id:4,name:'Rahul Gupta',email:'rahul@mail.com',roleId:2,stage:'screening',source:'LinkedIn',exp:'5 yrs'},
+  {id:5,name:'Divya Nair',email:'divya@mail.com',roleId:3,stage:'offer',source:'Referral',exp:'7 yrs'},
+  {id:6,name:'Karan Patel',email:'karan@mail.com',roleId:3,stage:'accepted',source:'LinkedIn',exp:'9 yrs'},
+  {id:7,name:'Ananya Singh',email:'ananya@mail.com',roleId:4,stage:'sourcing',source:'Indeed',exp:'3 yrs'},
+  {id:8,name:'Vikram Joshi',email:'vikram@mail.com',roleId:4,stage:'sourcing',source:'LinkedIn',exp:'4 yrs'},
+  {id:9,name:'Meera Iyer',email:'meera@mail.com',roleId:1,stage:'screening',source:'Naukri',exp:'5 yrs'},
+  {id:10,name:'Rohan Das',email:'rohan@mail.com',roleId:2,stage:'interview',source:'LinkedIn',exp:'6 yrs'},
+]);
+let activity=loadData('hrp_activity',[
+  {text:'Offer accepted — Karan Patel (HRBP)',time:'Today 10:14 AM',color:'#1D9E75'},
+  {text:'Interview scheduled — Priya Sharma (PM)',time:'Today 9:30 AM',color:'#7F77DD'},
+  {text:'3 candidates screened for FE role',time:'Today 9:00 AM',color:'#378ADD'},
+  {text:'New candidate added — Rohan Das',time:'Yesterday 4:30 PM',color:'#378ADD'},
+  {text:'DS role moved to sourcing stage',time:'Yesterday 2:00 PM',color:'#EF9F27'},
+]);
+let nextRoleId=loadData('hrp_nrid',11);
+let nextCandId=loadData('hrp_ncid',11);
+
+function save(){saveData('hrp_roles',roles);saveData('hrp_candidates',candidates);saveData('hrp_activity',activity);saveData('hrp_nrid',nextRoleId);saveData('hrp_ncid',nextCandId)}
+
+function switchTab(t){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+t).classList.add('active');
+  document.querySelectorAll('.nav-btn')[['dashboard','roles','candidates','pipeline','metrics'].indexOf(t)].classList.add('active');
+  ({dashboard:renderDashboard,roles:renderRoles,candidates:renderCandidates,pipeline:renderKanban,metrics:renderMetrics})[t]();
+}
+
+function initials(n){return n.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
+function avColor(id){return AV_COLORS[id%AV_COLORS.length]}
+function roleName(id){const r=roles.find(r=>r.id===id);return r?r.title:'Unknown'}
+function badge(s){return`<span class="badge ${STAGE_COLORS[s]||'b-hold'}">${STAGE_LABELS[s]||s}</span>`}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function now(){return new Date().toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})+' today'}
+
+function renderDashboard(){
+  const total=candidates.length;
+  const offered=candidates.filter(c=>['offer','accepted'].includes(c.stage)).length;
+  const accepted=candidates.filter(c=>c.stage==='accepted').length;
+  const openRoles=roles.filter(r=>r.status!=='hold').length;
+  document.getElementById('dash-metrics').innerHTML=`
+    <div class="metric"><div class="lbl">Open roles</div><div class="val" style="color:var(--text-accent)">${openRoles}</div><div class="chg">${roles.length} total</div></div>
+    <div class="metric"><div class="lbl">Candidates</div><div class="val">${total}</div><div class="chg">In pipeline</div></div>
+    <div class="metric"><div class="lbl">Offers out</div><div class="val" style="color:var(--text-success)">${offered}</div><div class="chg">Pending or accepted</div></div>
+    <div class="metric"><div class="lbl">Hired</div><div class="val" style="color:var(--text-success)">${accepted}</div><div class="chg">This cycle</div></div>`;
+
+  const counts={};STAGES.forEach(s=>counts[s]=0);candidates.forEach(c=>{if(counts[c.stage]!==undefined)counts[c.stage]++});
+  document.getElementById('pipe-snapshot').innerHTML=STAGES.map(s=>`
+    <div class="pipe-cell">
+      <div class="pipe-num" style="color:${PIPE_COLORS[s]}">${counts[s]}</div>
+      <div class="pipe-lbl">${STAGE_LABELS[s]}</div>
+      <div class="pipe-bar-wrap"><div style="height:3px;border-radius:2px;width:${Math.round(counts[s]/Math.max(total,1)*100)}%;background:${PIPE_COLORS[s]}"></div></div>
+    </div>`).join('');
+
+  document.getElementById('dash-roles').innerHTML=roles.slice(0,5).map((r,i)=>`
+    <div class="row">
+      <div class="av ${avColor(i)}">${initials(r.dept)}</div>
+      <div class="row-main"><div class="row-name">${r.title}</div><div class="row-sub">${r.dept} · ${r.level}</div></div>
+      ${badge(r.status)}
+    </div>`).join('');
+
+  document.getElementById('dash-activity').innerHTML=activity.slice(0,6).map(a=>`
+    <div class="row"><div class="dot" style="background:${a.color}"></div>
+    <div class="row-main"><div class="row-name" style="font-weight:400">${a.text}</div><div class="row-sub">${a.time}</div></div></div>`).join('');
+
+  const srcCounts={};candidates.forEach(c=>{if(c.source)srcCounts[c.source]=(srcCounts[c.source]||0)+1});
+  document.getElementById('dash-sources').innerHTML=Object.entries(srcCounts).sort((a,b)=>b[1]-a[1]).map(([s,n])=>`
+    <div class="stat-row"><span style="font-size:13px;color:var(--text-secondary)">${s}</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:${Math.round(n/total*100)}px;height:6px;border-radius:3px;background:${SOURCE_COLORS[s]||'#888'}"></div>
+      <span style="font-size:12px;font-weight:500">${Math.round(n/total*100)}%</span>
+    </div></div>`).join('')||'<div class="empty">No candidates yet.</div>';
+}
+
+function renderRoles(){
+  const sel=document.getElementById('c-role-sel');
+  if(sel)sel.innerHTML='<option value="">Select role</option>'+roles.map(r=>`<option value="${r.id}">${r.title}</option>`).join('');
+  document.getElementById('roles-list').innerHTML=roles.map((r,i)=>{
+    const cnt=candidates.filter(c=>c.roleId===r.id).length;
+    return`<div class="card" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="av ${avColor(i)}" style="width:36px;height:36px;font-size:12px">${initials(r.dept)}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:500;font-size:14px">${r.title}</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px">${r.dept} · ${r.level}</div>
+        </div>
+        ${badge(r.status)}
+        <button class="btn btn-sm btn-danger" onclick="deleteRole(${r.id})" title="Delete role"><i class="ti ti-trash"></i></button>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:10px"><i class="ti ti-user" style="font-size:13px;margin-right:3px"></i>${cnt} candidate${cnt!==1?'s':''}</div>
+      <div class="stage-btns">
+        ${STAGES.map(s=>`<button class="btn btn-sm" style="${r.status===s?'border-color:var(--border-accent);color:var(--text-accent);':''}" onclick="updateRoleStatus(${r.id},'${s}')">${STAGE_LABELS[s]}</button>`).join('')}
+        <button class="btn btn-sm" style="${r.status==='hold'?'border-color:var(--border-danger);color:var(--text-danger);':''}" onclick="updateRoleStatus(${r.id},'hold')">On hold</button>
+      </div>
+    </div>`}).join('')||'<div class="empty">No roles yet. Add your first role above.</div>';
+}
+function showAddRole(){document.getElementById('add-role-form').style.display='block'}
+function addRole(){
+  const t=document.getElementById('r-title').value.trim();
+  const d=document.getElementById('r-dept').value.trim();
+  if(!t||!d){toast('Enter role title and department');return}
+  roles.push({id:nextRoleId++,title:t,dept:d,level:document.getElementById('r-level').value||'Mid',status:document.getElementById('r-status').value});
+  activity.unshift({text:`New role added — ${t}`,time:now(),color:'#378ADD'});
+  save();document.getElementById('add-role-form').style.display='none';
+  document.getElementById('r-title').value='';document.getElementById('r-dept').value='';
+  toast('Role added');renderRoles();
+}
+function deleteRole(id){if(!confirm('Delete this role?'))return;roles=roles.filter(r=>r.id!==id);save();toast('Role removed');renderRoles()}
+function updateRoleStatus(id,status){
+  const r=roles.find(r=>r.id===id);
+  if(r){r.status=status;activity.unshift({text:`${r.title} moved to ${STAGE_LABELS[status]}`,time:now(),color:PIPE_COLORS[status]||'#888'});save();toast('Status updated');renderRoles()}
+}
+
+function showAddCand(){
+  const sel=document.getElementById('c-role-sel');
+  sel.innerHTML='<option value="">Select role</option>'+roles.map(r=>`<option value="${r.id}">${r.title}</option>`).join('');
+  document.getElementById('add-cand-form').style.display='block';
+}
+function addCandidate(){
+  const n=document.getElementById('c-name').value.trim();
+  const e=document.getElementById('c-email').value.trim();
+  const rid=parseInt(document.getElementById('c-role-sel').value);
+  if(!n||!rid){toast('Enter name and select a role');return}
+  candidates.push({id:nextCandId++,name:n,email:e,roleId:rid,stage:document.getElementById('c-stage').value,source:document.getElementById('c-source').value,exp:document.getElementById('c-exp').value});
+  activity.unshift({text:`Candidate added — ${n}`,time:now(),color:'#378ADD'});
+  save();document.getElementById('add-cand-form').style.display='none';
+  document.getElementById('c-name').value='';document.getElementById('c-email').value='';document.getElementById('c-exp').value='';
+  toast('Candidate added');renderCandidates();
+}
+function renderCandidates(){
+  const q=document.getElementById('cand-search').value.toLowerCase();
+  const sf=document.getElementById('cand-filter-stage').value;
+  const filtered=candidates.filter(c=>{
+    const rn=roleName(c.roleId).toLowerCase();
+    return(!q||(c.name.toLowerCase().includes(q)||rn.includes(q)))&&(!sf||c.stage===sf);
+  });
+  document.getElementById('cand-list').innerHTML=filtered.map(c=>`
+    <div class="row">
+      <div class="av ${avColor(c.id)}">${initials(c.name)}</div>
+      <div class="row-main">
+        <div class="row-name">${c.name}</div>
+        <div class="row-sub">${roleName(c.roleId)}${c.exp?' · '+c.exp:''}${c.source?' · '+c.source:''}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <select style="width:auto;padding:5px 8px;font-size:12px" onchange="updateCandStage(${c.id},this.value)">
+          ${STAGES.map(s=>`<option value="${s}"${c.stage===s?' selected':''}>${STAGE_LABELS[s]}</option>`).join('')}
+        </select>
+        <button class="btn btn-sm btn-danger" onclick="deleteCand(${c.id})" title="Remove"><i class="ti ti-trash"></i></button>
+      </div>
+    </div>`).join('')||'<div class="empty">No candidates match your search.</div>';
+}
+function updateCandStage(id,stage){
+  const c=candidates.find(c=>c.id===id);
+  if(c){c.stage=stage;activity.unshift({text:`${c.name} moved to ${STAGE_LABELS[stage]}`,time:now(),color:PIPE_COLORS[stage]||'#888'});save();toast('Stage updated')}
+}
+function deleteCand(id){if(!confirm('Remove this candidate?'))return;candidates=candidates.filter(c=>c.id!==id);save();toast('Candidate removed');renderCandidates()}
+
+function renderKanban(){
+  document.getElementById('kanban').innerHTML=STAGES.map(s=>{
+    const cands=candidates.filter(c=>c.stage===s);
+    return`<div class="kanban-col">
+      <div class="kanban-header">
+        <span style="font-size:12px;font-weight:500;color:var(--text-secondary)">${STAGE_LABELS[s]}</span>
+        <span class="kanban-count" style="background:${PIPE_COLORS[s]}20;color:${PIPE_COLORS[s]}">${cands.length}</span>
+      </div>
+      ${cands.map(c=>`<div class="cand-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div class="av ${avColor(c.id)}" style="width:26px;height:26px;font-size:10px">${initials(c.name)}</div>
+          <div style="font-size:13px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted)">${roleName(c.roleId)}</div>
+        ${c.source?`<div style="font-size:11px;color:var(--text-muted);margin-top:2px">${c.source}</div>`:''}
+      </div>`).join('')||`<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:12px 0">No candidates</div>`}
+    </div>`;
+  }).join('');
+}
+
+function renderMetrics(){
+  const total=candidates.length||1;
+  const stageCounts={};STAGES.forEach(s=>stageCounts[s]=candidates.filter(c=>c.stage===s).length);
+  document.getElementById('met-conversion').innerHTML=STAGES.map(s=>{
+    const pct=Math.round(stageCounts[s]/total*100);
+    return`<div class="stat-row">
+      <span style="font-size:13px;color:var(--text-secondary);width:90px">${STAGE_LABELS[s]}</span>
+      <div style="flex:1;margin:0 10px"><div class="progress-wrap"><div class="progress-fill" style="width:${pct}%;background:${PIPE_COLORS[s]}"></div></div></div>
+      <span style="font-size:13px;font-weight:500;min-width:36px;text-align:right">${stageCounts[s]}</span>
+    </div>`}).join('');
+
+  const srcMap={};candidates.forEach(c=>{if(c.source)srcMap[c.source]=(srcMap[c.source]||0)+1});
+  document.getElementById('met-sources').innerHTML=Object.entries(srcMap).sort((a,b)=>b[1]-a[1]).map(([s,n])=>`
+    <div class="stat-row">
+      <span style="font-size:13px;color:var(--text-secondary)">${s}</span>
+      <div style="flex:1;margin:0 10px"><div class="progress-wrap"><div class="progress-fill" style="width:${Math.round(n/total*100)}%;background:${SOURCE_COLORS[s]||'#888'}"></div></div></div>
+      <span style="font-size:12px;font-weight:500">${Math.round(n/total*100)}%</span>
+    </div>`).join('')||'<div class="empty">No source data yet.</div>';
+
+  document.getElementById('met-fillrate').innerHTML=roles.map((r,i)=>{
+    const cnt=candidates.filter(c=>c.roleId===r.id).length;
+    const acc=candidates.filter(c=>c.roleId===r.id&&c.stage==='accepted').length;
+    return`<div class="stat-row">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.title}</div>
+        <div style="font-size:11px;color:var(--text-muted)">${cnt} candidate${cnt!==1?'s':''} · ${acc} hired</div>
+      </div>
+      ${acc>0?`<span class="badge b-accepted">Filled</span>`:badge(r.status)}
+    </div>`}).join('')||'<div class="empty">No roles yet.</div>';
+
+  const openRolesCount=Math.max(roles.filter(r=>r.status!=='hold').length,1);
+  const targets=[
+    {label:'Target time-to-fill',val:'30 days',current:'28 days',ok:true},
+    {label:'Offer acceptance rate',val:'>70%',current:Math.round(candidates.filter(c=>c.stage==='accepted').length/Math.max(candidates.filter(c=>['offer','accepted'].includes(c.stage)).length,1)*100)+'%',ok:true},
+    {label:'Pipeline coverage ratio',val:'5:1',current:(Math.round(total/openRolesCount*10)/10)+':1',ok:total/openRolesCount>=5},
+    {label:'Active sourcing channels',val:'4+',current:Object.keys(srcMap).length+'',ok:Object.keys(srcMap).length>=4},
+  ];
+  document.getElementById('met-targets').innerHTML=targets.map(t=>`
+    <div class="stat-row">
+      <div style="flex:1">
+        <div style="font-size:13px;color:var(--text-secondary)">${t.label}</div>
+        <div style="font-size:11px;color:var(--text-muted)">Target: ${t.val}</div>
+      </div>
+      <span style="font-size:13px;font-weight:500;color:${t.ok?'var(--text-success)':'var(--text-warning)'}">${t.current} ${t.ok?'✓':''}</span>
+    </div>`).join('');
+}
+
+renderDashboard();
+</script>
+</body>
+</html>
